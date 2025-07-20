@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,7 +129,7 @@
             .time-display {
                 font-size: 8rem;
             }
-            
+
             .fullscreen-mode .time-display {
                 font-size: 14rem;
             }
@@ -139,19 +140,19 @@
                 font-size: 5rem;
                 letter-spacing: 3px;
             }
-            
+
             .date-display {
                 font-size: 0.8rem;
             }
-            
+
             .clock-container {
                 padding: 40px;
             }
-            
+
             .fullscreen-mode .time-display {
                 font-size: 8rem;
             }
-            
+
             .fullscreen-mode .date-display {
                 font-size: 1rem;
             }
@@ -196,12 +197,15 @@
 
         /* 微妙的呼吸效果 */
         @keyframes breathe {
-            0%, 100% { 
-                transform: scale(1); 
+
+            0%,
+            100% {
+                transform: scale(1);
                 opacity: 1;
             }
-            50% { 
-                transform: scale(1.002); 
+
+            50% {
+                transform: scale(1.002);
                 opacity: 0.98;
             }
         }
@@ -211,6 +215,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="clock-container breathe">
         <div class="time-display" id="timeDisplay">00:00:00</div>
@@ -229,7 +234,7 @@
     <script>
         let currentTheme = 0;
         let lastSecond = -1;
-        
+
         const themes = [
             { name: 'default', class: '', bg: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)' },
             { name: 'warm', class: 'theme-warm', bg: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)' },
@@ -241,13 +246,13 @@
 
         function updateTime() {
             const now = new Date();
-            
+
             // 格式化时间
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
             const seconds = now.getSeconds().toString().padStart(2, '0');
             const timeString = `${hours}<span class="time-separator">:</span>${minutes}<span class="time-separator">:</span>${seconds}`;
-            
+
             // 格式化日期
             const year = now.getFullYear();
             const month = now.getMonth() + 1;
@@ -255,9 +260,9 @@
             const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
             const weekday = weekdays[now.getDay()];
             const dateString = `${year}年${month}月${date}日 ${weekday}`;
-            
+
             const timeDisplay = document.getElementById('timeDisplay');
-            
+
             // 微妙的更新动画
             if (now.getSeconds() !== lastSecond) {
                 timeDisplay.classList.add('updating');
@@ -266,13 +271,13 @@
                 }, 100);
                 lastSecond = now.getSeconds();
             }
-            
+
             // 分隔符的微妙闪烁
             const separators = document.querySelectorAll('.time-separator');
             separators.forEach(sep => {
                 sep.classList.toggle('fade', now.getSeconds() % 2 === 0);
             });
-            
+
             timeDisplay.innerHTML = timeString;
             document.getElementById('dateDisplay').textContent = dateString;
         }
@@ -296,21 +301,21 @@
         function changeTheme() {
             currentTheme = (currentTheme + 1) % themes.length;
             const theme = themes[currentTheme];
-            
+
             // 移除所有主题类
             document.body.className = document.body.className.replace(/theme-\w+/g, '');
-            
+
             // 添加新主题
             if (theme.class) {
                 document.body.classList.add(theme.class);
             }
-            
+
             // 更新背景
             document.body.style.background = theme.bg;
         }
 
         // 监听全屏状态变化
-        document.addEventListener('fullscreenchange', function() {
+        document.addEventListener('fullscreenchange', function () {
             if (!document.fullscreenElement) {
                 document.body.classList.remove('fullscreen-mode');
                 document.getElementById('fullscreenText').textContent = '全屏显示';
@@ -318,7 +323,7 @@
         });
 
         // 键盘快捷键
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'f' || event.key === 'F') {
                 toggleFullscreen();
             }
@@ -332,15 +337,16 @@
 
         // 初始化时间显示
         updateTime();
-        
+
         // 每秒更新时间
         setInterval(updateTime, 1000);
 
         // 页面加载完成后的初始化
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             console.log('静谧时钟已启动');
             console.log('快捷键：F键全屏，T键切换主题');
         });
     </script>
 </body>
+
 </html>
